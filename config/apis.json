@@ -1,0 +1,25 @@
+{
+  "apis": [
+    {
+      "name": "Example API",
+      "url": "https://httpbin.org/status/200",
+      "method": "GET",
+      "expected_status": 200,
+      "timeout": 30
+    },
+    {
+      "name": "JSONPlaceholder",
+      "url": "https://jsonplaceholder.typicode.com/posts/1",
+      "method": "GET",
+      "expected_status": 200,
+      "timeout": 30
+    },
+    {
+      "name": "GitHub API",
+      "url": "https://api.github.com",
+      "method": "GET",
+      "expected_status": 200,
+      "timeout": 30
+    }
+  ]
+}

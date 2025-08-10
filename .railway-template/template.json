@@ -1,0 +1,96 @@
+{
+  "name": "API Uptime Monitor",
+  "description": "A comprehensive API uptime monitoring service with real-time dashboard, alerts, and webhook notifications. Built with Go, MongoDB, and designed for Railway deployment.",
+  "tags": ["monitoring", "uptime", "api", "alerts", "dashboard", "go", "mongodb"],
+  "categories": ["Monitoring", "DevOps", "SaaS"],
+  "githubUrl": "https://github.com/username/railway-api-uptime-monitor",
+  "demoUrl": "https://uptime-monitor-demo.railway.app",
+  "image": "https://raw.githubusercontent.com/username/railway-api-uptime-monitor/main/.railway-template/preview.png",
+  "services": [
+    {
+      "name": "uptime-monitor",
+      "type": "web",
+      "plan": "hobby",
+      "source": {
+        "type": "repo",
+        "repo": "username/railway-api-uptime-monitor",
+        "ref": "main"
+      },
+      "variables": {
+        "PORT": {
+          "description": "Application port",
+          "default": "8080"
+        },
+        "GIN_MODE": {
+          "description": "Gin framework mode",
+          "default": "release"
+        },
+        "CHECK_INTERVAL": {
+          "description": "Cron schedule for API checks",
+          "default": "*/5 * * * *"
+        },
+        "TIMEOUT_SECONDS": {
+          "description": "HTTP request timeout in seconds",
+          "default": "30"
+        },
+        "DOWNTIME_THRESHOLD": {
+          "description": "Number of consecutive failures before alert",
+          "default": "3"
+        },
+        "SLACK_WEBHOOK_URL": {
+          "description": "Slack webhook URL for notifications (optional)",
+          "optional": true
+        },
+        "DISCORD_WEBHOOK_URL": {
+          "description": "Discord webhook URL for notifications (optional)",
+          "optional": true
+        },
+        "ENABLE_SLACK": {
+          "description": "Enable Slack notifications",
+          "default": "false"
+        },
+        "ENABLE_DISCORD": {
+          "description": "Enable Discord notifications",
+          "default": "false"
+        }
+      }
+    },
+    {
+      "name": "mongodb",
+      "type": "database",
+      "plan": "hobby",
+      "source": {
+        "type": "image",
+        "image": "mongo:7.0"
+      },
+      "variables": {
+        "MONGO_INITDB_ROOT_USERNAME": {
+          "description": "MongoDB root username",
+          "default": "admin"
+        },
+        "MONGO_INITDB_ROOT_PASSWORD": {
+          "description": "MongoDB root password",
+          "generate": true
+        },
+        "MONGO_INITDB_DATABASE": {
+          "description": "Initial database name",
+          "default": "uptime_monitor"
+        }
+      },
+      "volumes": [
+        {
+          "name": "mongodb_data",
+          "mountPath": "/data/db"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "uptime-monitor",
+      "to": "mongodb",
+      "variable": "MONGODB_URI",
+      "template": "mongodb://admin:${MONGO_INITDB_ROOT_PASSWORD}@${RAILWAY_PRIVATE_DOMAIN}:27017/uptime_monitor?authSource=admin"
+    }
+  ]
+}

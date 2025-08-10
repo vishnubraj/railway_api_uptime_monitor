@@ -1,0 +1,55 @@
+{
+  "name": "Railway API Uptime Monitor",
+  "description": "A comprehensive API uptime monitoring service with real-time dashboard, alerts, and webhook notifications. Built with Go, MongoDB, and designed for Railway deployment.",
+  "repository": "https://github.com/username/railway-api-uptime-monitor",
+  "keywords": ["uptime", "monitoring", "api", "alerts", "dashboard", "railway", "go", "mongodb"],
+  "services": [
+    {
+      "name": "uptime-monitor",
+      "source": {
+        "repo": "https://github.com/username/railway-api-uptime-monitor",
+        "ref": "main"
+      },
+      "variables": {
+        "PORT": "8080",
+        "GIN_MODE": "release",
+        "CHECK_INTERVAL": "*/5 * * * *",
+        "TIMEOUT_SECONDS": "30",
+        "MAX_RETRIES": "3",
+        "DOWNTIME_THRESHOLD": "3",
+        "ENABLE_SLACK": "false",
+        "ENABLE_DISCORD": "false"
+      }
+    },
+    {
+      "name": "mongodb",
+      "source": {
+        "image": "mongo:7.0"
+      },
+      "variables": {
+        "MONGO_INITDB_ROOT_USERNAME": "admin",
+        "MONGO_INITDB_ROOT_PASSWORD": "${MONGO_PASSWORD}",
+        "MONGO_INITDB_DATABASE": "uptime_monitor"
+      },
+      "volumes": [
+        {
+          "name": "mongodb_data",
+          "mountPath": "/data/db"
+        }
+      ]
+    }
+  ],
+  "environments": {
+    "production": {
+      "variables": {
+        "MONGODB_URI": "mongodb://admin:${MONGO_PASSWORD}@mongodb:27017/uptime_monitor?authSource=admin",
+        "DATABASE_NAME": "uptime_monitor"
+      }
+    }
+  },
+  "volumes": [
+    {
+      "name": "mongodb_data"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+name: Railway API Uptime Monitor Template
+description: A comprehensive API uptime monitoring service with real-time dashboard, alerts, and webhook notifications
+keywords:
+  - uptime
+  - monitoring
+  - api
+  - alerts
+  - dashboard
+  - go
+  - mongodb
+  - railway
+
+services:
+  uptime-monitor:
+    source:
+      repo: $RAILWAY_GIT_REPO_URL
+      ref: $RAILWAY_GIT_BRANCH
+    variables:
+      PORT: 8080
+      GIN_MODE: release
+      CHECK_INTERVAL: "*/5 * * * *"
+      TIMEOUT_SECONDS: 30
+      MAX_RETRIES: 3
+      DOWNTIME_THRESHOLD: 3
+      ENABLE_SLACK: false
+      ENABLE_DISCORD: false
+      DATABASE_NAME: uptime_monitor
+      MONGODB_URI: ${{MongoDB.MONGO_URL}}
+    
+  MongoDB:
+    image: mongo:7.0
+    variables:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${{MONGO_PASSWORD}}
+      MONGO_INITDB_DATABASE: uptime_monitor
+    volumes:
+      - /data/db
+
+variables:
+  MONGO_PASSWORD:
+    description: "MongoDB root password"
+    default: "uptime_monitor_password"

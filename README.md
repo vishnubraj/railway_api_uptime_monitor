@@ -1,5 +1,7 @@
 # Railway API Uptime Monitor
 
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/railway-api-uptime-monitor)
+
 A robust API uptime monitoring service built with Go, MongoDB, and designed for Railway deployment with cron jobs and webhook integrations.
 
 ## Features
@@ -64,6 +66,23 @@ Configure the APIs to monitor in `config/apis.json`:
     }
   ]
 }
+```
+
+## Quick Deploy to Railway
+
+### Option 1: One-Click Deploy
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/railway-api-uptime-monitor)
+
+### Option 2: Automated Script
+```bash
+curl -sL https://raw.githubusercontent.com/username/railway-api-uptime-monitor/main/railway-deploy-template.sh | bash
+```
+
+### Option 3: Railway CLI
+```bash
+git clone <your-repo>
+cd railway-api-uptime-monitor
+./railway-deploy-template.sh
 ```
 
 ## Railway Deployment

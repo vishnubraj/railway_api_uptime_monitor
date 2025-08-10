@@ -1,18 +1,11 @@
-# Railway Configuration
-# This file configures Railway-specific settings and deployment
+[build]
+builder = "NIXPACKS"
 
-# Railway will automatically detect this as a Go project
-# and install dependencies from go.mod
+[deploy]
+startCommand = "./uptime-monitor"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
 
-# Environment variables for Railway deployment
-RAILWAY_STATIC_URL="https://your-app.railway.app"
-RAILWAY_GIT_COMMIT_SHA="${RAILWAY_GIT_COMMIT_SHA}"
-
-# Railway automatically provides:
-# - RAILWAY_ENVIRONMENT (production/staging)
-# - DATABASE_URL (when MongoDB addon is attached)
-# - PORT (automatically assigned)
-
-# Cron job configuration
-# Railway supports cron jobs via Railway's cron service
-# Add this to your Railway project configuration
+[variables]
+PORT = "8080"
+GIN_MODE = "release"
